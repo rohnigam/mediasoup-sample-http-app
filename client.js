@@ -166,6 +166,9 @@ async function getUserMedia(transport, isWebcam) {
 
   let stream;
   try {
+    console.log('rohit')
+    console.log(navigator)
+    console.log(navigator.mediaDevices)
     stream = isWebcam ?
       await navigator.mediaDevices.getUserMedia({ video: true }) :
       await navigator.mediaDevices.getDisplayMedia({ video: true });
