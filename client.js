@@ -42,7 +42,8 @@ async function connect() {
     transports: ['websocket'],
   };
 
-  const serverUrl = `https://${hostname}:${config.listenPort}`;
+  // const serverUrl = `https://${hostname}:${config.listenPort}`;
+  const serverUrl = `http://${hostname}:${config.listenPort}`;
   socket = socketClient(serverUrl, opts);
   socket.request = socketPromise(socket);
 
@@ -99,7 +100,8 @@ async function publish(e) {
 
   const transport = device.createSendTransport(data);
   transport.on('connect', async ({ dtlsParameters }, callback, errback) => {
-    socket.request('connectProducerTransport', { dtlsParameters })
+    // socket.request('connectProducerTransport', { dtlsParameters })
+    socket.request('connectProducerTransport')
       .then(callback)
       .catch(errback);
   });
@@ -198,9 +200,12 @@ async function subscribe() {
 
   const transport = device.createRecvTransport(data);
   transport.on('connect', ({ dtlsParameters }, callback, errback) => {
+    // socket.request('connectConsumerTransport', {
+    //   transportId: transport.id,
+    //   dtlsParameters
+    // })
     socket.request('connectConsumerTransport', {
-      transportId: transport.id,
-      dtlsParameters
+      transportId: transport.id
     })
       .then(callback)
       .catch(errback);
